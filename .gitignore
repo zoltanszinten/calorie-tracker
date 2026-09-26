@@ -1,0 +1,7 @@
+calorie-data.json
+calorie-data.backup.json
+.calorie-*.tmp
+.env
+.env.*
+*.log
+node_modules/
