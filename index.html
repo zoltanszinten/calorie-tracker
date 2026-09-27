@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#101a16">
-  <meta name="description" content="A simple daily calorie total, with additions, corrections, and multipliers.">
+  <meta name="description" content="A simple daily calorie total, with additions, corrections, and a calculator.">
   <title>Calorie Tracker</title>
   <style>
     :root { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #19332d; background: #f3f5ed; font-size: 16px; }
@@ -35,17 +35,17 @@
     .kcal-input { width: 100%; height: 56px; padding: 0 66px 0 17px; border: 2px solid #cbdbcd; border-radius: 13px; background: #fbfdf9; color: #19332d; outline: none; font-size: 1.18rem; font-variant-numeric: tabular-nums; }
     .kcal-input:focus { border-color: #4f9168; box-shadow: 0 0 0 3px #4f91682b; }
     .input-suffix { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #647b6e; pointer-events: none; }
-    .multiplier { min-width: 64px; max-width: 110px; padding: 0 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; border: 2px solid #cbdccd; border-radius: 13px; background: #f3faed; color: #225941; font-weight: 800; font-variant-numeric: tabular-nums; }
-    .multiplier:hover { background: #e7f5da; }
-    .multiplier:focus-visible, .action:focus-visible, .remove-button:focus-visible { outline: 3px solid #4f9168; outline-offset: 3px; }
+    .calculator-trigger { width: 56px; min-width: 56px; display: grid; place-items: center; border: 1px solid var(--ui-line, #cbdccd); border-radius: 13px; background: var(--ui-surface-alt, #f3faed); color: var(--ui-accent, #225941); }
+    .calculator-trigger:hover { background: #2d4938; }
+    .calculator-trigger svg { width: 23px; height: 23px; stroke: currentColor; }
+    .calculator-trigger:focus-visible, .action:focus-visible, .remove-button:focus-visible { outline: 3px solid #4f9168; outline-offset: 3px; }
     .actions { display: flex; gap: 10px; margin-top: 13px; }
     .action { flex: 1; min-height: 52px; border-radius: 12px; font-weight: 800; border: 0; }
     .add-button { background: #d4ef91; color: #19332d; }
     .add-button:hover { background: #c7e87b; }
     .subtract-button { background: #f3eee6; color: #714b32; border: 1px solid #eadccd; }
     .subtract-button:hover { background: #eee2d5; }
-    .action:disabled, .multiplier:disabled { opacity: .5; cursor: not-allowed; }
-    .preview { margin: 14px 0 0; color: #597168; font-size: .9rem; min-height: 1.4em; font-variant-numeric: tabular-nums; }
+    .action:disabled, .calculator-trigger:disabled { opacity: .5; cursor: not-allowed; }
     .feedback { min-height: 1.3em; margin: 6px 0 0; color: #a23d32; font-size: .9rem; }
     .lists { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; align-items: start; }
     .list-card { padding: 23px 23px 13px; height: 286px; display: flex; flex-direction: column; min-height: 0; }
@@ -62,22 +62,22 @@
     .remove-button { border: 0; background: transparent; color: #718579; width: 34px; height: 34px; border-radius: 9px; font-size: 1.25rem; line-height: 1; }
     .remove-button:hover { background: #fce8e5; color: #a23d32; }
     .file-warning { background: #fff3c7; border: 1px solid #ead481; border-radius: 16px; padding: 17px 20px; margin-bottom: 20px; line-height: 1.5; }
-    .multiplier-dialog { width: min(380px, calc(100vw - 32px)); padding: 27px; border: 1px solid #dbe6d8; border-radius: 20px; box-shadow: 0 24px 70px #19332d45; color: #19332d; }
-    .multiplier-dialog::backdrop { background: #10251cb3; }
-    .multiplier-dialog h2 { margin-bottom: 16px; }
-    .dialog-label { display: block; margin-bottom: 7px; font-weight: 700; }
-    .dialog-input-row { display: flex; gap: 8px; }
-    .dialog-input { flex: 1; min-width: 0; height: 52px; padding: 0 14px; border: 2px solid #cbdbcd; border-radius: 12px; outline: none; font-size: 1.15rem; font-variant-numeric: tabular-nums; }
-    .dialog-input:focus { border-color: #4f9168; box-shadow: 0 0 0 3px #4f91682b; }
-    .dialog-step { width: 52px; height: 52px; border: 1px solid #cbdccd; border-radius: 12px; background: #f3faed; color: #225941; font-size: 1.12rem; font-weight: 800; }
-    .dialog-step:hover:not(:disabled) { background: #e7f5da; }
-    .dialog-step:disabled { opacity: .45; cursor: not-allowed; }
-    .dialog-step:focus-visible { outline: 3px solid #4f9168; outline-offset: 3px; }
-    .dialog-feedback { min-height: 1.25em; margin: 10px 0; color: #a23d32; font-size: .88rem; }
-    .dialog-actions { display: flex; gap: 10px; }
-    .dialog-actions button { flex: 1; min-height: 45px; border-radius: 11px; font-weight: 750; }
-    .dialog-cancel { border: 1px solid #cbdccd; background: #fff; color: #476458; }
-    .dialog-save { border: 0; background: #d4ef91; color: #19332d; }
+    .calculator-dialog { width: min(340px, calc(100vw - 32px)); padding: 22px; color: var(--ui-ink, #19332d); }
+    .calculator-dialog::backdrop { background: #08150dc9; }
+    .calculator-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+    .calculator-header h2 { font-size: 1.35rem; }
+    .calculator-close { width: 36px; height: 36px; border: 1px solid var(--ui-line, #cbdccd); border-radius: 9px; background: var(--ui-surface-alt, #f3faed); color: var(--ui-ink, #19332d); font-size: 1.35rem; line-height: 1; }
+    .calculator-display { display: block; min-height: 68px; padding: 16px; border: 1px solid var(--ui-line, #cbdccd); border-radius: 11px; background: var(--ui-page, #f3f5ed); color: var(--ui-ink, #19332d); text-align: right; font-size: 1.8rem; font-weight: 700; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+    .calculator-display:focus-visible { outline: 2px solid var(--ui-accent, #4f9168); outline-offset: 2px; }
+    .calculator-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 12px; }
+    .calculator-key { min-height: 50px; border: 1px solid var(--ui-line, #cbdccd); border-radius: 10px; background: var(--ui-surface-alt, #f3faed); color: var(--ui-ink, #19332d); font-size: 1.2rem; font-weight: 650; }
+    .calculator-key:hover, .calculator-close:hover { background: #2d4938; }
+    .calculator-key--operator { color: var(--ui-accent, #225941); }
+    .calculator-key--wide { grid-column: span 2; }
+    .calculator-key--equals { background: var(--ui-button, #366e50); color: #fff; }
+    .calculator-key--equals:hover { background: var(--ui-accent-hover, #458361); }
+    .calculator-feedback { min-height: 1.25em; margin: 10px 0; color: #f0a89b; font-size: .88rem; }
+    .calculator-use { width: 100%; }
     [hidden] { display: none !important; }
     @media (max-width: 650px) { .shell { padding: 20px 14px 44px; } .top { margin-bottom: 20px; } .today-card { padding: 27px 25px 29px; border-radius: 23px; } .entry-card { padding: 22px 20px 16px; } .lists { grid-template-columns: 1fr; gap: 14px; margin-top: 14px; } }
   </style>
@@ -105,14 +105,13 @@
             <input class="kcal-input ui-input" id="kcal-input" type="number" min="1" max="100000" step="1" inputmode="numeric" aria-label="Calories" required disabled>
             <span class="input-suffix" aria-hidden="true">kcal</span>
           </div>
-          <button class="multiplier" id="multiplier" type="button" aria-label="Edit multiplier, currently ×1" title="Set multiplier" disabled>×1</button>
+          <button class="calculator-trigger" id="calculator-trigger" type="button" aria-label="Open calculator" title="Open calculator" disabled><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2.5" width="16" height="19" rx="2"/><path d="M7.5 6.5h9v3h-9zM8 13h.01M12 13h.01M16 13h.01M8 17h.01M12 17h.01M16 17h.01"/></svg></button>
         </div>
         <div class="actions">
           <button class="action add-button ui-action ui-action--primary" id="add-button" type="submit" data-operation="add" disabled>+ KCAL</button>
           <button class="action subtract-button ui-action ui-action--soft" id="subtract-button" type="submit" data-operation="subtract" disabled>− KCAL</button>
         </div>
       </form>
-      <p class="preview" id="preview" aria-live="polite"></p>
       <p class="feedback" id="feedback" role="status" aria-live="polite"></p>
     </section>
 
@@ -130,21 +129,31 @@
     </div>
   </main>
 
-  <dialog class="multiplier-dialog ui-dialog" id="multiplier-dialog" aria-labelledby="multiplier-heading">
-    <form id="multiplier-form">
-      <h2 class="ui-title" id="multiplier-heading">Set multiplier</h2>
-      <label class="dialog-label" for="multiplier-input">Multiplier</label>
-      <div class="dialog-input-row">
-        <input class="dialog-input ui-input" id="multiplier-input" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" aria-describedby="multiplier-feedback">
-        <button class="dialog-step" id="multiplier-up" type="button" aria-label="Increase multiplier">▲</button>
-        <button class="dialog-step" id="multiplier-down" type="button" aria-label="Decrease multiplier">▼</button>
-      </div>
-      <p class="dialog-feedback" id="multiplier-feedback" role="alert"></p>
-      <div class="dialog-actions">
-        <button class="dialog-cancel ui-action ui-action--outline" id="multiplier-cancel" type="button">Cancel</button>
-        <button class="dialog-save ui-action ui-action--primary" type="submit">Set multiplier</button>
-      </div>
-    </form>
+  <dialog class="calculator-dialog ui-dialog" id="calculator-dialog" aria-labelledby="calculator-heading">
+    <div class="calculator-header"><h2 class="ui-title" id="calculator-heading">Calculator</h2><button class="calculator-close" id="calculator-close" type="button" aria-label="Close calculator">×</button></div>
+    <output class="calculator-display" id="calculator-display" tabindex="0" aria-label="Calculation" aria-live="polite" aria-atomic="true">0</output>
+    <div class="calculator-grid" id="calculator-grid">
+      <button class="calculator-key calculator-key--wide" type="button" data-calc="clear">C</button>
+      <button class="calculator-key" type="button" data-calc="backspace" aria-label="Backspace">⌫</button>
+      <button class="calculator-key calculator-key--operator" type="button" data-calc="÷">÷</button>
+      <button class="calculator-key" type="button" data-calc="7">7</button>
+      <button class="calculator-key" type="button" data-calc="8">8</button>
+      <button class="calculator-key" type="button" data-calc="9">9</button>
+      <button class="calculator-key calculator-key--operator" type="button" data-calc="×">×</button>
+      <button class="calculator-key" type="button" data-calc="4">4</button>
+      <button class="calculator-key" type="button" data-calc="5">5</button>
+      <button class="calculator-key" type="button" data-calc="6">6</button>
+      <button class="calculator-key calculator-key--operator" type="button" data-calc="−">−</button>
+      <button class="calculator-key" type="button" data-calc="1">1</button>
+      <button class="calculator-key" type="button" data-calc="2">2</button>
+      <button class="calculator-key" type="button" data-calc="3">3</button>
+      <button class="calculator-key calculator-key--operator" type="button" data-calc="+">+</button>
+      <button class="calculator-key calculator-key--wide" type="button" data-calc="0">0</button>
+      <button class="calculator-key" type="button" data-calc=".">.</button>
+      <button class="calculator-key calculator-key--equals" type="button" data-calc="=">=</button>
+    </div>
+    <p class="calculator-feedback" id="calculator-feedback" role="status" aria-live="polite"></p>
+    <button class="calculator-use ui-action ui-action--primary" id="calculator-use" type="button">Use kcal result</button>
   </dialog>
 
   <script>
@@ -159,35 +168,65 @@
       const parseDay = day => { const [year, month, date] = day.split("-").map(Number); return new Date(year, month - 1, date); };
       const signedAmount = value => `${value < 0 ? "−" : "+"}${numberFormatter.format(Math.abs(value))}`;
       const delta = entry => entry.kcal * entry.multiplier * (entry.operation === "subtract" ? -1 : 1);
-      const maxMultiplier = Math.floor(Number.MAX_SAFE_INTEGER / 100000);
       const fileMode = location.protocol === "file:";
       let entries = [];
-      let multiplier = 1;
       let busy = false;
-      const parseMultiplier = raw => {
-        const value = raw.trim();
-        return /^(?:\d+(?:[.,]\d*)?|[.,]\d+)$/.test(value) ? Number(value.replace(",", ".")) : NaN;
-      };
-      const validMultiplier = value => Number.isFinite(value) && value > 0 && value <= maxMultiplier;
-      const stepMultiplier = (value, direction) => {
-        const step = value > 1 || (value === 1 && direction > 0) ? 1 : 0.1;
-        return Number((value + direction * step).toPrecision(15));
-      };
+      let calculatorExpression = "";
+      let calculatorJustEvaluated = false;
 
-      function updateStepButtons() {
-        const value = parseMultiplier($("multiplier-input").value);
-        $("multiplier-up").disabled = !validMultiplier(value) || !validMultiplier(stepMultiplier(value, 1));
-        $("multiplier-down").disabled = !validMultiplier(value) || !validMultiplier(stepMultiplier(value, -1));
+      function calculateExpression() {
+        const first = /^-?\d+(?:\.\d*)?/.exec(calculatorExpression);
+        if (!first) return NaN;
+        let rest = calculatorExpression.slice(first[0].length);
+        let term = Number(first[0]);
+        let sum = 0;
+        while (rest) {
+          const next = /^([+−×÷])(\d+(?:\.\d*)?)/.exec(rest);
+          if (!next) return NaN;
+          const value = Number(next[2]);
+          if (next[1] === "×") term *= value;
+          else if (next[1] === "÷") term /= value;
+          else { sum += term; term = next[1] === "+" ? value : -value; }
+          rest = rest.slice(next[0].length);
+        }
+        return sum + term;
       }
 
-      function adjustMultiplier(direction) {
-        const value = parseMultiplier($("multiplier-input").value);
-        if (!validMultiplier(value)) return;
-        const next = stepMultiplier(value, direction);
-        if (!validMultiplier(next)) return;
-        $("multiplier-input").value = String(next);
-        $("multiplier-feedback").textContent = "";
-        updateStepButtons();
+      function renderCalculator() {
+        $("calculator-display").textContent = calculatorExpression || "0";
+      }
+
+      function calculatorInput(key) {
+        $("calculator-feedback").textContent = "";
+        if (key === "clear") { calculatorExpression = ""; calculatorJustEvaluated = false; }
+        else if (key === "backspace") { calculatorExpression = calculatorExpression.slice(0, -1); calculatorJustEvaluated = false; }
+        else if (key === "=") {
+          const result = calculateExpression();
+          if (!Number.isFinite(result) || Math.abs(result) > 1e12) {
+            $("calculator-feedback").textContent = "Check the calculation and try again.";
+            return;
+          }
+          calculatorExpression = String(Number(result.toFixed(8)));
+          calculatorJustEvaluated = true;
+        } else if (/[+−×÷]/.test(key)) {
+          if (!calculatorExpression) return;
+          if (/[+−×÷]$/.test(calculatorExpression)) calculatorExpression = calculatorExpression.slice(0, -1) + key;
+          else calculatorExpression += key;
+          calculatorJustEvaluated = false;
+        } else if (key === ".") {
+          if (calculatorJustEvaluated) calculatorExpression = "";
+          const segment = calculatorExpression.split(/[+−×÷]/).at(-1);
+          if (segment.includes(".")) return;
+          calculatorExpression += segment ? "." : "0.";
+          calculatorJustEvaluated = false;
+        } else if (/^\d$/.test(key)) {
+          if (calculatorJustEvaluated) calculatorExpression = "";
+          const segment = calculatorExpression.split(/[+−×÷]/).at(-1);
+          if (segment === "0") calculatorExpression = calculatorExpression.slice(0, -1) + key;
+          else if (calculatorExpression.length < 48) calculatorExpression += key;
+          calculatorJustEvaluated = false;
+        }
+        renderCalculator();
       }
 
       async function api(path, options) {
@@ -197,18 +236,9 @@
         return result;
       }
 
-      function updateMultiplier() {
-        $("multiplier").textContent = `×${multiplier}`;
-        $("multiplier").setAttribute("aria-label", `Edit multiplier, currently ×${multiplier}`);
-        const kcal = Number($("kcal-input").value);
-        $("preview").textContent = Number.isInteger(kcal) && kcal >= 1 && kcal <= 100000
-          ? `${numberFormatter.format(kcal)} × ${multiplier} = ${numberFormatter.format(kcal * multiplier)} kcal`
-          : "";
-      }
-
       function setEnabled(enabled) {
         $("kcal-input").disabled = !enabled;
-        $("multiplier").disabled = !enabled;
+        $("calculator-trigger").disabled = !enabled;
         $("add-button").disabled = !enabled;
         $("subtract-button").disabled = !enabled;
       }
@@ -236,7 +266,7 @@
           title.textContent = `${signedAmount(delta(entry))} kcal`;
           const sub = document.createElement("span");
           sub.className = "row-sub";
-          sub.textContent = `${numberFormatter.format(entry.kcal)} × ${entry.multiplier} · ${timeFormatter.format(new Date(entry.created))}`;
+          sub.textContent = `${numberFormatter.format(entry.kcal)}${entry.multiplier === 1 ? "" : ` × ${entry.multiplier}`} · ${timeFormatter.format(new Date(entry.created))}`;
           main.append(title, sub);
           const button = document.createElement("button");
           button.className = "remove-button";
@@ -280,31 +310,42 @@
         $("history-list").scrollTop = historyScroll;
       }
 
-      $("multiplier").addEventListener("click", () => {
-        $("multiplier-input").value = String(multiplier);
-        $("multiplier-feedback").textContent = "";
-        updateStepButtons();
-        $("multiplier-dialog").showModal();
-        $("multiplier-input").focus();
-        $("multiplier-input").select();
+      $("calculator-trigger").addEventListener("click", () => {
+        calculatorExpression = $("kcal-input").value || "";
+        calculatorJustEvaluated = false;
+        $("calculator-feedback").textContent = "";
+        renderCalculator();
+        $("calculator-dialog").showModal();
+        $("calculator-display").focus();
       });
-      $("multiplier-up").addEventListener("click", () => adjustMultiplier(1));
-      $("multiplier-down").addEventListener("click", () => adjustMultiplier(-1));
-      $("multiplier-input").addEventListener("input", updateStepButtons);
-      $("multiplier-cancel").addEventListener("click", () => $("multiplier-dialog").close());
-      $("multiplier-form").addEventListener("submit", event => {
-        event.preventDefault();
-        const value = parseMultiplier($("multiplier-input").value);
-        if (!validMultiplier(value)) {
-          $("multiplier-feedback").textContent = "Enter a positive number, such as 0.3, 0.6, 4, or 10.";
+      $("calculator-close").addEventListener("click", () => $("calculator-dialog").close());
+      $("calculator-grid").addEventListener("click", event => {
+        const button = event.target.closest("[data-calc]");
+        if (button) calculatorInput(button.dataset.calc);
+      });
+      $("calculator-dialog").addEventListener("keydown", event => {
+        if (event.key === "Escape" || (event.key === "Enter" && event.target instanceof HTMLButtonElement)) return;
+        const key = event.key === "Backspace" ? "backspace" : event.key === "Delete" ? "clear"
+          : event.key === "*" || event.key.toLowerCase() === "x" ? "×"
+          : event.key === "/" ? "÷" : event.key === "-" ? "−"
+          : event.key === "," ? "." : event.key === "Enter" ? "=" : event.key;
+        if (/^\d$/.test(key) || [".", "+", "−", "×", "÷", "=", "backspace", "clear"].includes(key)) {
+          event.preventDefault();
+          calculatorInput(key);
+        }
+      });
+      $("calculator-use").addEventListener("click", () => {
+        const result = calculateExpression();
+        const kcal = Math.round(result);
+        if (!Number.isFinite(result) || !Number.isInteger(kcal) || kcal < 1 || kcal > 100000) {
+          $("calculator-feedback").textContent = "Result must be between 1 and 100,000 kcal.";
           return;
         }
-        multiplier = value;
-        updateMultiplier();
-        $("multiplier-dialog").close();
+        $("kcal-input").value = String(kcal);
+        $("feedback").textContent = result !== kcal ? `Rounded to ${numberFormatter.format(kcal)} kcal.` : "";
+        $("calculator-dialog").close();
         $("kcal-input").focus();
       });
-      $("kcal-input").addEventListener("input", updateMultiplier);
       $("entry-form").addEventListener("submit", async event => {
         event.preventDefault();
         if (busy) return;
@@ -314,11 +355,9 @@
         busy = true;
         setEnabled(false);
         try {
-          entries = (await api("/api/entries", { method: "POST", body: JSON.stringify({ day: localDay(), kcal, multiplier, operation }) })).entries;
+          entries = (await api("/api/entries", { method: "POST", body: JSON.stringify({ day: localDay(), kcal, multiplier: 1, operation }) })).entries;
           $("feedback").textContent = "";
           $("kcal-input").value = "";
-          multiplier = 1;
-          updateMultiplier();
           render();
           $("entries-list").scrollTop = 0;
         } catch (error) {
@@ -346,7 +385,6 @@
         }
         render();
       }
-      updateMultiplier();
       load();
       window.addEventListener("focus", load);
       document.addEventListener("visibilitychange", () => { if (!document.hidden) load(); });
