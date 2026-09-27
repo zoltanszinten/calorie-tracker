@@ -1,0 +1,61 @@
+/* Project HUB UI kit. Source of truth for the small apps in this workspace. */
+:root {
+  --ui-page: #f4f4ed;
+  --ui-surface: #fffefa;
+  --ui-ink: #203b32;
+  --ui-muted: #667b70;
+  --ui-line: #dce5d9;
+  --ui-accent: #315e47;
+  --ui-accent-hover: #254c39;
+  --ui-soft: #e9efe4;
+  --ui-lime: #dcebad;
+  --ui-radius: 14px;
+  --ui-radius-small: 9px;
+  --ui-shadow: 0 10px 30px rgba(32, 59, 50, .07);
+}
+
+body.ui-app {
+  color: var(--ui-ink);
+  background: var(--ui-page);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+body.ui-app .ui-title { font-family: Georgia, "Times New Roman", serif; font-weight: 500; letter-spacing: -.035em; }
+body.ui-app .ui-kicker { color: var(--ui-accent); font-size: 11px; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; }
+body.ui-app .ui-mark { display: grid; place-items: center; border-radius: 10px; background: var(--ui-ink); color: var(--ui-lime); }
+body.ui-app .ui-surface { background: var(--ui-surface); border: 1px solid var(--ui-line); border-radius: var(--ui-radius); box-shadow: var(--ui-shadow); }
+body.ui-app .ui-hero { background: var(--ui-ink); color: #fff; border-radius: 20px; box-shadow: 0 18px 42px rgba(32, 59, 50, .17); }
+body.ui-app .ui-hero .ui-kicker { color: var(--ui-lime); }
+body.ui-app .ui-hero--light { background: var(--ui-soft); color: var(--ui-ink); box-shadow: var(--ui-shadow); }
+body.ui-app .ui-hero--light .ui-kicker { color: var(--ui-accent); }
+body.ui-app .ui-action { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 10px 18px; border-radius: var(--ui-radius-small); font: inherit; font-size: 13px; font-weight: 750; line-height: 1.2; text-decoration: none; cursor: pointer; }
+body.ui-app .ui-action--primary { border: 1px solid var(--ui-accent); background: var(--ui-accent); color: #fff; }
+body.ui-app .ui-action--primary:hover:not(:disabled) { background: var(--ui-accent-hover); border-color: var(--ui-accent-hover); }
+body.ui-app .ui-action--soft { border: 1px solid var(--ui-line); background: var(--ui-soft); color: var(--ui-ink); }
+body.ui-app .ui-action--soft:hover:not(:disabled) { background: #dce9d6; }
+body.ui-app .ui-action--outline { border: 1px solid #adbfad; background: var(--ui-surface); color: var(--ui-accent); }
+body.ui-app .ui-action--outline:hover:not(:disabled) { background: var(--ui-soft); }
+body.ui-app .ui-action:disabled { opacity: .55; cursor: not-allowed; }
+body.ui-app .ui-input { border: 1px solid #b9cbbb; border-radius: var(--ui-radius-small); background: var(--ui-surface); color: var(--ui-ink); }
+body.ui-app .ui-dialog { border: 1px solid var(--ui-line); border-radius: var(--ui-radius); background: var(--ui-surface); color: var(--ui-ink); box-shadow: 0 25px 70px rgba(17, 40, 28, .24); }
+body.ui-app :is(button, input, select, textarea, a):focus-visible { outline: 3px solid #76a981; outline-offset: 3px; }
+
+/* Map existing app tokens to the same palette while each app keeps its layout. */
+body.ui-app--kitchen { --cream: var(--ui-page); --white: var(--ui-surface); --ink: var(--ui-ink); --muted: var(--ui-muted); --line: var(--ui-line); --green: var(--ui-accent); --lime: var(--ui-lime); --shadow: var(--ui-shadow); }
+body.ui-app--kitchen :is(.primary, .secondary, .small-button) { border-radius: var(--ui-radius-small); }
+body.ui-app--kitchen :is(.meal-card, .kitchen-card, .my-recipe-picks, .my-recipe-item, .my-recipe-pick, .shop-category) { border-color: var(--ui-line); border-radius: var(--ui-radius); }
+body.ui-app--kitchen .primary { background-color: var(--ui-accent); }
+body.ui-app--shopping { --bg: var(--ui-page); --surface: var(--ui-surface); --soft: var(--ui-soft); --text: var(--ui-ink); --muted: var(--ui-muted); --border: var(--ui-line); --accent: var(--ui-accent); --input: var(--ui-surface); }
+body.ui-app--ledger { --paper: var(--ui-page); --white: var(--ui-surface); --ink: var(--ui-ink); --muted: var(--ui-muted); --line: var(--ui-line); --teal: var(--ui-accent); --lime: var(--ui-lime); --shadow: var(--ui-shadow); }
+body.ui-app--ledger .sidebar { background: var(--ui-ink); }
+body.ui-app--ledger .button-primary { background: var(--ui-accent); color: #fff; }
+body.ui-app--ledger .button-primary:hover { background: var(--ui-accent-hover); }
+body.ui-app--ledger .button-secondary { background: var(--ui-soft); color: var(--ui-ink); }
+body.ui-app--ledger .metric-primary { background: var(--ui-lime); border-color: #cadb9d; }
+body.ui-app--ledger :is(.panel, .metric, .category-browser) { border-radius: var(--ui-radius); }
+body.ui-app--ledger .button { border-radius: var(--ui-radius-small); }
+body.ui-app--shopping .item-list { background: var(--ui-surface); border-color: var(--ui-line); border-radius: var(--ui-radius); box-shadow: var(--ui-shadow); }
+body.ui-app--hub .card { box-shadow: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  body.ui-app :is(.ui-action, .ui-surface, .ui-hero) { scroll-behavior: auto; transition-duration: 0s; }
+}

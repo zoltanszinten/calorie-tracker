@@ -81,34 +81,35 @@
     [hidden] { display: none !important; }
     @media (max-width: 650px) { .shell { padding: 20px 14px 44px; } .top { margin-bottom: 20px; } .today-card { padding: 27px 25px 29px; border-radius: 23px; } .entry-card { padding: 22px 20px 16px; } .lists { grid-template-columns: 1fr; gap: 14px; margin-top: 14px; } }
   </style>
+  <link rel="stylesheet" href="ui.css">
 </head>
-<body>
+<body class="ui-app ui-app--calories">
   <main class="shell">
     <header class="top">
-      <div class="brand"><span class="brand-mark" aria-hidden="true">◉</span><span>Calorie Tracker</span></div>
+      <div class="brand"><span class="brand-mark ui-mark" aria-hidden="true">◉</span><span>Calorie Tracker</span></div>
       <time class="today-label" id="today-date"></time>
     </header>
     <p class="file-warning" id="file-warning" hidden>Open Calorie Tracker from the Project Hub or start its server to save entries.</p>
 
-    <section class="today-card" aria-labelledby="today-heading">
-      <p class="eyebrow" id="today-heading">Calories today</p>
+    <section class="today-card ui-hero" aria-labelledby="today-heading">
+      <p class="eyebrow ui-kicker" id="today-heading">Calories today</p>
       <div class="total" aria-live="polite" aria-atomic="true"><strong id="total">0</strong><span>kcal</span></div>
       <p class="today-note" id="today-note">Add your first entry today.</p>
     </section>
 
-    <section class="entry-card" aria-labelledby="entry-heading">
-      <h1 id="entry-heading">Log calories</h1>
+    <section class="entry-card ui-surface" aria-labelledby="entry-heading">
+      <h1 class="ui-title" id="entry-heading">Log calories</h1>
       <form class="entry-form" id="entry-form">
         <div class="input-row">
           <div class="input-wrap">
-            <input class="kcal-input" id="kcal-input" type="number" min="1" max="100000" step="1" inputmode="numeric" aria-label="Calories" required disabled>
+            <input class="kcal-input ui-input" id="kcal-input" type="number" min="1" max="100000" step="1" inputmode="numeric" aria-label="Calories" required disabled>
             <span class="input-suffix" aria-hidden="true">kcal</span>
           </div>
           <button class="multiplier" id="multiplier" type="button" aria-label="Edit multiplier, currently ×1" title="Set multiplier" disabled>×1</button>
         </div>
         <div class="actions">
-          <button class="action add-button" id="add-button" type="submit" data-operation="add" disabled>+ KCAL</button>
-          <button class="action subtract-button" id="subtract-button" type="submit" data-operation="subtract" disabled>− KCAL</button>
+          <button class="action add-button ui-action ui-action--primary" id="add-button" type="submit" data-operation="add" disabled>+ KCAL</button>
+          <button class="action subtract-button ui-action ui-action--soft" id="subtract-button" type="submit" data-operation="subtract" disabled>− KCAL</button>
         </div>
       </form>
       <p class="preview" id="preview" aria-live="polite"></p>
@@ -116,32 +117,32 @@
     </section>
 
     <div class="lists">
-      <section class="list-card" aria-labelledby="entries-heading">
-        <h2 id="entries-heading">Today’s entries</h2>
+      <section class="list-card ui-surface" aria-labelledby="entries-heading">
+        <h2 class="ui-title" id="entries-heading">Today’s entries</h2>
         <p class="empty" id="entries-empty">No entries yet today.</p>
         <ul class="rows" id="entries-list"></ul>
       </section>
-      <section class="list-card" aria-labelledby="history-heading">
-        <h2 id="history-heading">Previous days</h2>
+      <section class="list-card ui-surface" aria-labelledby="history-heading">
+        <h2 class="ui-title" id="history-heading">Previous days</h2>
         <p class="empty" id="history-empty">Your previous days will appear here.</p>
         <ul class="rows" id="history-list"></ul>
       </section>
     </div>
   </main>
 
-  <dialog class="multiplier-dialog" id="multiplier-dialog" aria-labelledby="multiplier-heading">
+  <dialog class="multiplier-dialog ui-dialog" id="multiplier-dialog" aria-labelledby="multiplier-heading">
     <form id="multiplier-form">
-      <h2 id="multiplier-heading">Set multiplier</h2>
+      <h2 class="ui-title" id="multiplier-heading">Set multiplier</h2>
       <label class="dialog-label" for="multiplier-input">Multiplier</label>
       <div class="dialog-input-row">
-        <input class="dialog-input" id="multiplier-input" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" aria-describedby="multiplier-feedback">
+        <input class="dialog-input ui-input" id="multiplier-input" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" aria-describedby="multiplier-feedback">
         <button class="dialog-step" id="multiplier-up" type="button" aria-label="Increase multiplier">▲</button>
         <button class="dialog-step" id="multiplier-down" type="button" aria-label="Decrease multiplier">▼</button>
       </div>
       <p class="dialog-feedback" id="multiplier-feedback" role="alert"></p>
       <div class="dialog-actions">
-        <button class="dialog-cancel" id="multiplier-cancel" type="button">Cancel</button>
-        <button class="dialog-save" type="submit">Set multiplier</button>
+        <button class="dialog-cancel ui-action ui-action--outline" id="multiplier-cancel" type="button">Cancel</button>
+        <button class="dialog-save ui-action ui-action--primary" type="submit">Set multiplier</button>
       </div>
     </form>
   </dialog>
