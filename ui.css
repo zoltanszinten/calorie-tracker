@@ -1,17 +1,20 @@
 /* Project HUB UI kit. Source of truth for the small apps in this workspace. */
 :root {
-  --ui-page: #f4f4ed;
-  --ui-surface: #fffefa;
-  --ui-ink: #203b32;
-  --ui-muted: #667b70;
-  --ui-line: #dce5d9;
-  --ui-accent: #315e47;
-  --ui-accent-hover: #254c39;
-  --ui-soft: #e9efe4;
+  color-scheme: dark;
+  --ui-page: #101a16;
+  --ui-surface: #192820;
+  --ui-surface-alt: #22362b;
+  --ui-ink: #f0f4ed;
+  --ui-muted: #afc1b3;
+  --ui-line: #395044;
+  --ui-accent: #b8dfa5;
+  --ui-button: #366e50;
+  --ui-accent-hover: #458361;
+  --ui-soft: #22362b;
   --ui-lime: #dcebad;
   --ui-radius: 14px;
   --ui-radius-small: 9px;
-  --ui-shadow: 0 10px 30px rgba(32, 59, 50, .07);
+  --ui-shadow: 0 10px 30px rgba(0, 0, 0, .18);
 }
 
 body.ui-app {
@@ -19,42 +22,121 @@ body.ui-app {
   background: var(--ui-page);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 }
-body.ui-app .ui-title { font-family: Georgia, "Times New Roman", serif; font-weight: 500; letter-spacing: -.035em; }
+body.ui-app :is(h1, h2, h3), body.ui-app .ui-title { font-family: Georgia, "Times New Roman", serif; font-weight: 500; letter-spacing: -.035em; }
 body.ui-app .ui-kicker { color: var(--ui-accent); font-size: 11px; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; }
-body.ui-app .ui-mark { display: grid; place-items: center; border-radius: 10px; background: var(--ui-ink); color: var(--ui-lime); }
+body.ui-app .ui-mark { display: grid; place-items: center; border-radius: 10px; background: var(--ui-button); color: var(--ui-lime); }
 body.ui-app .ui-surface { background: var(--ui-surface); border: 1px solid var(--ui-line); border-radius: var(--ui-radius); box-shadow: var(--ui-shadow); }
-body.ui-app .ui-hero { background: var(--ui-ink); color: #fff; border-radius: 20px; box-shadow: 0 18px 42px rgba(32, 59, 50, .17); }
+body.ui-app .ui-hero { background: #213b2e; color: var(--ui-ink); border-radius: 20px; box-shadow: 0 18px 42px rgba(0, 0, 0, .18); }
 body.ui-app .ui-hero .ui-kicker { color: var(--ui-lime); }
 body.ui-app .ui-hero--light { background: var(--ui-soft); color: var(--ui-ink); box-shadow: var(--ui-shadow); }
 body.ui-app .ui-hero--light .ui-kicker { color: var(--ui-accent); }
 body.ui-app .ui-action { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 10px 18px; border-radius: var(--ui-radius-small); font: inherit; font-size: 13px; font-weight: 750; line-height: 1.2; text-decoration: none; cursor: pointer; }
-body.ui-app .ui-action--primary { border: 1px solid var(--ui-accent); background: var(--ui-accent); color: #fff; }
+body.ui-app .ui-action--primary { border: 1px solid var(--ui-button); background: var(--ui-button); color: #fff; }
 body.ui-app .ui-action--primary:hover:not(:disabled) { background: var(--ui-accent-hover); border-color: var(--ui-accent-hover); }
 body.ui-app .ui-action--soft { border: 1px solid var(--ui-line); background: var(--ui-soft); color: var(--ui-ink); }
-body.ui-app .ui-action--soft:hover:not(:disabled) { background: #dce9d6; }
-body.ui-app .ui-action--outline { border: 1px solid #adbfad; background: var(--ui-surface); color: var(--ui-accent); }
+body.ui-app .ui-action--soft:hover:not(:disabled) { background: #2d4938; }
+body.ui-app .ui-action--outline { border: 1px solid #698873; background: var(--ui-surface); color: var(--ui-accent); }
 body.ui-app .ui-action--outline:hover:not(:disabled) { background: var(--ui-soft); }
 body.ui-app .ui-action:disabled { opacity: .55; cursor: not-allowed; }
-body.ui-app .ui-input { border: 1px solid #b9cbbb; border-radius: var(--ui-radius-small); background: var(--ui-surface); color: var(--ui-ink); }
+body.ui-app .ui-input { border: 1px solid #678473; border-radius: var(--ui-radius-small); background: var(--ui-surface); color: var(--ui-ink); }
 body.ui-app .ui-dialog { border: 1px solid var(--ui-line); border-radius: var(--ui-radius); background: var(--ui-surface); color: var(--ui-ink); box-shadow: 0 25px 70px rgba(17, 40, 28, .24); }
-body.ui-app :is(button, input, select, textarea, a):focus-visible { outline: 3px solid #76a981; outline-offset: 3px; }
+body.ui-app :is(button, input, select, textarea, a):focus-visible { outline: 3px solid var(--ui-accent); outline-offset: 3px; }
+body.ui-app :is(input, select, textarea)::placeholder { color: var(--ui-muted); opacity: .8; }
+body.ui-app :is(input, select, textarea) { accent-color: var(--ui-accent); }
+body.ui-app .ui-list { background: var(--ui-surface); border: 1px solid var(--ui-line); border-radius: var(--ui-radius); box-shadow: var(--ui-shadow); }
+body.ui-app .ui-list-row { display: flex; align-items: center; gap: 12px; min-height: 58px; border-color: var(--ui-line); color: var(--ui-ink); }
+body.ui-app .ui-check { appearance: none; flex: none; width: 18px; height: 18px; min-height: 0; padding: 0; margin: 0; border: 1px solid #91b198; border-radius: 4px; background: var(--ui-surface); cursor: pointer; }
+body.ui-app .ui-check:checked { background: var(--ui-accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m4 12 5 5L20 6' fill='none' stroke='%23101a16' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 16px 16px no-repeat; border-color: var(--ui-accent); }
+body.ui-app .ui-check:checked::after { content: none; }
+body.ui-app .ui-check:disabled { opacity: .65; cursor: default; }
+body.ui-app .ui-list-label { color: var(--ui-ink); font-size: 13px; font-weight: 650; }
+body.ui-app .ui-list-detail { display: block; margin-top: 3px; color: var(--ui-muted); font-size: 11px; font-weight: 400; line-height: 1.4; }
 
 /* Map existing app tokens to the same palette while each app keeps its layout. */
 body.ui-app--kitchen { --cream: var(--ui-page); --white: var(--ui-surface); --ink: var(--ui-ink); --muted: var(--ui-muted); --line: var(--ui-line); --green: var(--ui-accent); --lime: var(--ui-lime); --shadow: var(--ui-shadow); }
 body.ui-app--kitchen :is(.primary, .secondary, .small-button) { border-radius: var(--ui-radius-small); }
-body.ui-app--kitchen :is(.meal-card, .kitchen-card, .my-recipe-picks, .my-recipe-item, .my-recipe-pick, .shop-category) { border-color: var(--ui-line); border-radius: var(--ui-radius); }
-body.ui-app--kitchen .primary { background-color: var(--ui-accent); }
-body.ui-app--shopping { --bg: var(--ui-page); --surface: var(--ui-surface); --soft: var(--ui-soft); --text: var(--ui-ink); --muted: var(--ui-muted); --border: var(--ui-line); --accent: var(--ui-accent); --input: var(--ui-surface); }
+body.ui-app--kitchen :is(.meal-card, .kitchen-card, .my-recipe-picks, .shop-category) { border-color: var(--ui-line); border-radius: var(--ui-radius); }
+body.ui-app--kitchen .primary { background-color: var(--ui-button); color: #fff; border-color: var(--ui-button); }
+body.ui-app--shopping { --bg: var(--ui-page); --surface: var(--ui-surface); --soft: var(--ui-soft); --text: var(--ui-ink); --muted: var(--ui-muted); --border: var(--ui-line); --accent: var(--ui-accent); --input: var(--ui-surface); --danger: #efa99f; }
 body.ui-app--ledger { --paper: var(--ui-page); --white: var(--ui-surface); --ink: var(--ui-ink); --muted: var(--ui-muted); --line: var(--ui-line); --teal: var(--ui-accent); --lime: var(--ui-lime); --shadow: var(--ui-shadow); }
-body.ui-app--ledger .sidebar { background: var(--ui-ink); }
-body.ui-app--ledger .button-primary { background: var(--ui-accent); color: #fff; }
+body.ui-app--ledger .sidebar { background: #14241e; }
+body.ui-app--ledger .button-primary { background: var(--ui-button); color: #fff; }
 body.ui-app--ledger .button-primary:hover { background: var(--ui-accent-hover); }
 body.ui-app--ledger .button-secondary { background: var(--ui-soft); color: var(--ui-ink); }
-body.ui-app--ledger .metric-primary { background: var(--ui-lime); border-color: #cadb9d; }
+body.ui-app--ledger .metric-primary { background: #294a35; border-color: #5b8563; }
 body.ui-app--ledger :is(.panel, .metric, .category-browser) { border-radius: var(--ui-radius); }
 body.ui-app--ledger .button { border-radius: var(--ui-radius-small); }
 body.ui-app--shopping .item-list { background: var(--ui-surface); border-color: var(--ui-line); border-radius: var(--ui-radius); box-shadow: var(--ui-shadow); }
 body.ui-app--hub .card { box-shadow: none; }
+body.ui-app--hub .card:hover, body.ui-app--hub .card:focus-visible { background: var(--ui-surface-alt); border-color: var(--ui-accent); }
+
+/* Dark surfaces for older app layouts that still have hardcoded light colors. */
+body.ui-app:is(.ui-app--dog, .ui-app--calories) :is(.today-label, .total span, .today-note, .empty, .row-sub, .input-suffix, .preview) { color: var(--ui-muted); }
+body.ui-app:is(.ui-app--dog, .ui-app--calories) .today-card :is(.total span, .today-note) { color: #c8dac7; }
+body.ui-app:is(.ui-app--dog, .ui-app--calories) .row { border-color: var(--ui-line); }
+body.ui-app:is(.ui-app--dog, .ui-app--calories) :is(.remove-button, .dialog-step, .multiplier) { color: var(--ui-accent); background: var(--ui-surface-alt); border-color: var(--ui-line); }
+body.ui-app:is(.ui-app--dog, .ui-app--calories) :is(.remove-button, .dialog-step, .multiplier):hover { background: #2d4938; }
+body.ui-app:is(.ui-app--dog, .ui-app--calories) .file-warning { background: #453a24; border-color: #74623c; color: #f5e1a8; }
+body.ui-app:is(.ui-app--dog, .ui-app--calories) .feedback { color: #f0a89b; }
+body.ui-app--calories :is(.negative, .dialog-feedback) { color: #f0a89b; }
+body.ui-app--calories .multiplier-dialog { background: var(--ui-surface); color: var(--ui-ink); border-color: var(--ui-line); }
+body.ui-app--calories .dialog-input { background: var(--ui-surface); color: var(--ui-ink); border-color: #678473; }
+body.ui-app--calories .dialog-cancel { background: var(--ui-surface-alt); color: var(--ui-ink); border-color: var(--ui-line); }
+body.ui-app--calories .dialog-save { background: var(--ui-button); color: #fff; }
+
+body.ui-app--kitchen :is(.primary, .pantry-plan-button) { background: var(--ui-button); color: #fff; border-color: var(--ui-button); }
+body.ui-app--kitchen :is(.primary, .pantry-plan-button):hover:not(:disabled) { background: var(--ui-accent-hover); }
+body.ui-app--kitchen :is(.secondary, .small-button, .text-nav, .meal-actions button) { color: var(--ui-accent); border-color: #6e8d75; }
+body.ui-app--kitchen :is(.secondary, .small-button, .meal-actions button):hover { background: var(--ui-surface-alt); }
+body.ui-app--kitchen :is(.home-hero p, .modal-header p, .calorie-line, .at-home, .shop-count, .control-note, .photo-status) { color: var(--ui-muted); }
+body.ui-app--kitchen :is(.home-hero-illustration, .kitchen-entry, .wizard-progress, .my-recipe-picks, .photo-panel, .selection-count) { background: var(--ui-surface-alt); color: var(--ui-ink); border-color: var(--ui-line); }
+body.ui-app--kitchen :is(.modal-header, .photo-icon, .wizard-progress button span, .plate-inner, .pantry-chip, .empty-kitchen-option, .photo-choice, .photo-preview) { background: var(--ui-surface-alt); color: var(--ui-ink); border-color: var(--ui-line); }
+body.ui-app--kitchen .modal-close, body.ui-app--kitchen .kitchen-entry input[type=file]::file-selector-button, body.ui-app--kitchen .photo-panel input[type=file]::file-selector-button { background: var(--ui-surface); color: var(--ui-ink); border-color: var(--ui-line); }
+body.ui-app--kitchen .wizard-progress button { color: var(--ui-muted); }
+body.ui-app--kitchen .wizard-progress button[aria-current=step] { color: var(--ui-accent); }
+body.ui-app--kitchen .wizard-progress button[aria-current=step] span { background: var(--ui-button); color: #fff; }
+body.ui-app--kitchen .home-card:not(.selected) { background: var(--ui-surface); }
+body.ui-app--kitchen .home-card.selected::after { background: var(--ui-button); color: #fff; }
+body.ui-app--kitchen :is(.candidate-card, .home-card):hover { border-color: var(--ui-accent); }
+body.ui-app--kitchen :is(.candidate-card, .home-card).selected { border-color: var(--ui-accent); box-shadow: 0 0 0 2px #b8dfa555; }
+body.ui-app--kitchen :is(.shop-row, .import-row) { border-color: var(--ui-line); }
+body.ui-app--kitchen :is(.shop-row.done .item-name, .import-row input:checked+.item-name) { color: var(--ui-muted); }
+body.ui-app--kitchen :is(.avoid-entry input, .pantry-add input, .my-recipe-fields input, .my-recipe-fields textarea, .control-group select) { background: var(--ui-surface); color: var(--ui-ink); border-color: #678473; }
+body.ui-app--kitchen .control-group select { background-image: none; }
+body.ui-app--kitchen .empty-kitchen-option:has(input:checked) { background: #2d4938; border-color: var(--ui-accent); }
+body.ui-app--kitchen :is(.avoid-chip, .inline-error, .api-warning) { background: #47342d; border-color: #805748; color: #f2c0a8; }
+body.ui-app--kitchen :is(.recipe-form-status, #importStatus) { color: #f2b3a5; }
+body.ui-app--kitchen :is(.my-recipe-ingredient button, .my-recipe-empty) { background: var(--ui-surface); color: var(--ui-ink); border-color: var(--ui-line); }
+body.ui-app--kitchen .my-recipe-ingredient button:hover { background: #47342d; }
+body.ui-app--kitchen :is(.meal-visual.peach, .meal-visual.yellow, .meal-visual.green, .meal-visual.pink) { background: var(--ui-surface-alt); }
+
+body.ui-app--shopping :is(.quick-add, .item-list, dialog) { background: var(--ui-surface); color: var(--ui-ink); border-color: var(--ui-line); }
+body.ui-app--shopping :is(.edit, .secondary) { background: var(--ui-surface-alt); color: var(--ui-accent); border-color: var(--ui-line); }
+body.ui-app--shopping .remove { background: #422a29; color: #f1afa4; border-color: #784944; }
+body.ui-app--shopping button[type=submit] { background: var(--ui-button); color: #fff; }
+body.ui-app--shopping .row { border-color: var(--ui-line); }
+
+body.ui-app--ledger :is(.topbar, .month-control, .metric, .panel, .category-browser, .table-wrap, .table-footer, .search, .filter, .category-browser-button, .merchant-rules, .funding-visibility, .empty-state, .drop-zone, .insight) { background: var(--ui-surface); color: var(--ui-ink); border-color: var(--ui-line); }
+body.ui-app--ledger :is(.metric-primary, .category-browser-button.active) { background: #294a35; color: var(--ui-ink); border-color: #5b8563; }
+body.ui-app--ledger :is(.metric-top, .metric-foot, .metric-primary .metric-top, .metric-primary .metric-foot, .breadcrumb, .eyebrow, .panel-tag, .insight p, .row-sub, .field label, .merchant-rules small, .funding-visibility small) { color: var(--ui-muted); }
+body.ui-app--ledger :is(.donut, .category-bar, .merchant-number, .panel-tag, .format-chips span, .kind-pill, .icon-button, .source-item, .wasted-suggestion) { background: var(--ui-surface-alt); color: var(--ui-ink); border-color: var(--ui-line); }
+body.ui-app--ledger .donut::after { background: var(--ui-surface); }
+body.ui-app--ledger :is(.button-secondary, .button-outline, .button-quiet, .category-select, .field select, .field input, .rate-field, .rate-field input, .merchant-rules>div>span, .wasted-suggestion button, .notice-rate input) { background: var(--ui-surface-alt); color: var(--ui-ink); border-color: var(--ui-line); }
+body.ui-app--ledger :is(th, .category-section th, .category-section:hover th) { background: var(--ui-surface-alt); color: var(--ui-muted); border-color: var(--ui-line); }
+body.ui-app--ledger :is(td, .top-merchant, .mini-chart, .merchant-more) { border-color: var(--ui-line); }
+body.ui-app--ledger tr:hover td { background: var(--ui-surface-alt); }
+body.ui-app--ledger .filter.active { background: var(--ui-button); color: #fff; border-color: var(--ui-button); }
+body.ui-app--ledger .notice { background: #403525; color: #f1d8a5; border-color: #78623b; }
+body.ui-app--ledger .notice strong { color: #f8e5ba; }
+body.ui-app--ledger :is(.kind-pill.review, .pdf-note, .wasted-suggestion) { background: #403525; color: #f1d8a5; border-color: #78623b; }
+body.ui-app--ledger .mapping-dialog { background: var(--ui-surface); color: var(--ui-ink); border: 1px solid var(--ui-line); }
+body.ui-app--ledger :is(.amount-positive, .merchant-more-toggle, .category-browser-button.active strong) { color: var(--ui-accent); }
+body.ui-app--ledger .amount-negative { color: #f1afa4; }
+
+@media print {
+  :root { color-scheme: light; }
+  body.ui-app { --ui-page: #fff; --ui-surface: #fff; --ui-surface-alt: #fff; --ui-ink: #111; --ui-muted: #444; --ui-line: #ddd; --ui-accent: #245438; --ui-soft: #fff; color: #111; background: #fff; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   body.ui-app :is(.ui-action, .ui-surface, .ui-hero) { scroll-behavior: auto; transition-duration: 0s; }
